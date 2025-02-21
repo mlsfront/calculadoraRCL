@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de ROI, CAC e LTV</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .input-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            color: #0056b3;
+            margin-top: 20px;
+            margin-bottom: 14px;
+        }
+        .mb-7 {
+            margin-bottom: 7px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Calculadora de ROI, CAC e LTV</h1>
+        <div class="input-group">
+            <label for="lucro-investimento">Lucro do Investimento (R$):</label>
+            <input type="number" id="lucro-investimento">
+        </div>
+        <div class="input-group">
+            <label for="custo-investimento">Custo do Investimento (R$):</label>
+            <input type="number" id="custo-investimento">
+        </div>
+        <button onclick="calcularROI()">Calcular ROI</button>
+        <div class="result" id="resultado-roi"></div>
+
+        <div class="input-group">
+            <label for="total-gasto">Total gasto em marketing e vendas (R$):</label>
+            <input type="number" id="total-gasto">
+        </div>
+        <div class="input-group">
+            <label for="novos-clientes">Número de novos clientes adquiridos:</label>
+            <input type="number" id="novos-clientes">
+        </div>
+        <button onclick="calcularCAC()">Calcular CAC</button>
+        <div class="result" id="resultado-cac"></div>
+
+        <div class="input-group">
+            <label for="valor-medio">Valor médio da compra (R$):</label>
+            <input type="number" id="valor-medio">
+        </div>
+        <div class="input-group">
+            <label for="numero-compras">Número médio de compras por ano:</label>
+            <input type="number" id="numero-compras">
+        </div>
+        <div class="input-group">
+            <label for="duracao-relacionamento">Duração média do relacionamento (anos):</label>
+            <input type="number" id="duracao-relacionamento">
+        </div>
+        <button onclick="calcularLTV()">Calcular LTV</button>
+        <div class="result" id="resultado-ltv"></div>
+    </div>
+
+    <script>
+        function calcularROI() {
+            const lucroInvestimento = parseFloat(document.getElementById('lucro-investimento').value);
+            const custoInvestimento = parseFloat(document.getElementById('custo-investimento').value);
+            const roi = ((lucroInvestimento - custoInvestimento) / custoInvestimento) * 100;
+            //document.getElementById('resultado-roi').innerText = `ROI: ${roi.toFixed(2)}%`;
+            document.getElementById('resultado-roi').innerText = `ROI: ${roi.toFixed(2)}%`;
+        }
+
+        function calcularCAC() {
+            const totalGasto = parseFloat(document.getElementById('total-gasto').value);
+            const novosClientes = parseInt(document.getElementById('novos-clientes').value);
+            const cac = totalGasto / novosClientes;
+            document.getElementById('resultado-cac').innerText = `CAC: R$ ${cac.toFixed(2)}`;
+        }
+
+        function calcularLTV() {
+            const valorMedio = parseFloat(document.getElementById('valor-medio').value);
+            const numeroCompras = parseInt(document.getElementById('numero-compras').value);
+            const duracaoRelacionamento = parseInt(document.getElementById('duracao-relacionamento').value);
+            const ltv = valorMedio * numeroCompras * duracaoRelacionamento;
+            document.getElementById('resultado-ltv').innerText = `LTV: R$ ${ltv.toFixed(2)}`;
+        }
+    </script>
+</body>
+</html>
