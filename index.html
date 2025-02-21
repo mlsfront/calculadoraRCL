@@ -10,7 +10,10 @@
             margin: 20px;
         }
         .container {
-            max-width: 600px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
             margin: 0 auto;
         }
         .input-group {
@@ -35,55 +38,149 @@
         button:hover {
             background-color: #0056b3;
         }
-        .result {
-            color: #0056b3;
-            margin-top: 20px;
-            margin-bottom: 14px;
+        button.btn-warning.text-dark {
+            background-color: #ffc107;
+            color: #343a40;
         }
-        .mb-7 {
+        button.btn-warning.text-dark:hover {
+            background-color: #d39e00;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        h2 {
+            margin-bottom: 10px;
+        }
+        .result {
+            margin-top: 20px;
             margin-bottom: 7px;
+            color: #0056b3;
+        }
+        .formula {
+            font-size: 14px;
+            color: #6c757d;
+        }
+        details:not(#conceitos-de-roi-cac-e-ltv) {
+            margin-bottom: 20px;
+            color: #6c757d;
+        }
+        .alert-info {
+            background-color: #f0f9ff;
+            padding: 10px;
+            border-left: 5px solid #0056b3;
+        }
+        .details-information {
+            display: flex;
+            justify-content: space-between;
         }
     </style>
 </head>
 <body>
+    <h1>Calculadora de ROI, CAC e LTV</h1>
+
+    <div class="details-information">
+        <div>
+            <details open>
+                <summary>O que é ROI, CAC e LTV?</summary>
+                <p><strong>ROI (Return on Investment)</strong> é uma métrica que mede o retorno sobre o investimento. É calculado pela fórmula: ((Lucro - Custo) / Custo) * 100.</p>
+                <p><strong>CAC (Custo de Aquisição de Clientes)</strong> é uma métrica que mede o custo para adquirir um novo cliente. É calculado pela fórmula: Total Gasto / Novos Clientes.</p>
+                <p><strong>LTV (Lifetime Value)</strong> é uma métrica que mede o valor que um cliente traz para a empresa durante todo o relacionamento. É calculado pela fórmula: Valor Médio * Número de Compras * Duração do Relacionamento.</p>
+                <button class="btn-warning text-dark" onclick="this.parentElement.removeAttribute('open')">Fechar</button>
+            </details>
+        </div>
+    </div>
+
     <div class="container">
-        <h1>Calculadora de ROI, CAC e LTV</h1>
-        <div class="input-group">
-            <label for="lucro-investimento">Lucro do Investimento (R$):</label>
-            <input type="number" id="lucro-investimento">
+        <div>
+            <h2>Calcular ROI</h2>
+            <div class="input-group">
+                <label for="lucro-investimento">Lucro do Investimento (R$):</label>
+                <input type="number" id="lucro-investimento" placeholder="Informe o lucro do investimento">
+            </div>
+            <div class="input-group">
+                <label for="custo-investimento">Custo do Investimento (R$):</label>
+                <input type="number" id="custo-investimento" placeholder="Informe o custo do investimento">
+            </div>
+            <button onclick="calcularROI()">Calcular ROI</button>
+            <div class="result" id="resultado-roi"></div>
+            <div class="formula">Fórmula: ROI = ((Lucro - Custo) / Custo) * 100</div>
         </div>
-        <div class="input-group">
-            <label for="custo-investimento">Custo do Investimento (R$):</label>
-            <input type="number" id="custo-investimento">
-        </div>
-        <button onclick="calcularROI()">Calcular ROI</button>
-        <div class="result" id="resultado-roi"></div>
 
-        <div class="input-group">
-            <label for="total-gasto">Total gasto em marketing e vendas (R$):</label>
-            <input type="number" id="total-gasto">
+        <div>
+            <h2>Calcular CAC</h2>
+            <div class="input-group">
+                <label for="total-gasto">Total gasto em marketing e vendas (R$):</label>
+                <input type="number" id="total-gasto" placeholder="Informe o total gasto">
+            </div>
+            <div class="input-group">
+                <label for="novos-clientes">Número de novos clientes adquiridos:</label>
+                <input type="number" id="novos-clientes" placeholder="Informe o número de novos clientes">
+            </div>
+            <button onclick="calcularCAC()">Calcular CAC</button>
+            <div class="result" id="resultado-cac"></div>
+            <div class="formula">Fórmula: CAC = Total Gasto / Novos Clientes</div>
         </div>
-        <div class="input-group">
-            <label for="novos-clientes">Número de novos clientes adquiridos:</label>
-            <input type="number" id="novos-clientes">
-        </div>
-        <button onclick="calcularCAC()">Calcular CAC</button>
-        <div class="result" id="resultado-cac"></div>
 
-        <div class="input-group">
-            <label for="valor-medio">Valor médio da compra (R$):</label>
-            <input type="number" id="valor-medio">
+        <div>
+            <h2>Calcular LTV</h2>
+            <div class="input-group">
+                <label for="valor-medio">Valor médio da compra (R$):</label>
+                <input type="number" id="valor-medio" placeholder="Informe o valor médio da compra">
+            </div>
+            <div class="input-group">
+                <label for="numero-compras">Número médio de compras por ano:</label>
+                <input type="number" id="numero-compras" placeholder="Informe o número médio de compras">
+            </div>
+            <div class="input-group">
+                <label for="duracao-relacionamento">Duração média do relacionamento (anos):</label>
+                <input type="number" id="duracao-relacionamento" placeholder="Informe a duração média do relacionamento">
+            </div>
+            <button onclick="calcularLTV()">Calcular LTV</button>
+            <div class="result" id="resultado-ltv"></div>
+            <div class="formula">Fórmula: LTV = Valor Médio * Número de Compras * Duração do Relacionamento</div>
         </div>
-        <div class="input-group">
-            <label for="numero-compras">Número médio de compras por ano:</label>
-            <input type="number" id="numero-compras">
-        </div>
-        <div class="input-group">
-            <label for="duracao-relacionamento">Duração média do relacionamento (anos):</label>
-            <input type="number" id="duracao-relacionamento">
-        </div>
-        <button onclick="calcularLTV()">Calcular LTV</button>
-        <div class="result" id="resultado-ltv"></div>
+    </div>
+
+
+    <div>
+        <details id="conceitos-de-roi-cac-e-ltv">
+            <summary>Conceitos de ROI, CAC e LTV</summary>
+            <h2 id="expliqueemportugusosconceitosderoicaceltv">Explicando conceitos de ROI, CAC e LTV.</h2>
+            <p>ROI, CAC e LTV são métricas financeiras essenciais para empresas que buscam avaliar a eficácia de seus investimentos e estratégias de marketing. A seguir, uma explicação detalhada de cada um desses conceitos.</p>
+            <h2 id="roiretornosobreinvestimento"><strong>ROI (Retorno sobre Investimento)</strong></h2>
+            <p>O <strong>ROI</strong> é uma sigla para "Return on Investment", que em português significa "Retorno sobre o Investimento". Essa métrica avalia a rentabilidade de um investimento, permitindo que as empresas entendam quanto dinheiro ganharam ou perderam em relação ao valor investido. O  cálculo do ROI é feito pela fórmula:</p>
+            <blockquote>
+            <p>Fórmula: ROI = ((Lucro - Custo) / Custo) * 100</p>
+            </blockquote>
+            <p class="alert-info">Por exemplo, se uma empresa investe R$ 10.000 em uma campanha de marketing e obtém um lucro de R$ 15.000, o ROI seria:</p>
+            <p>(15.000 - 10.000)/10.000 = 0,5 ou 50%</p>
+            <p>Isso significa que para cada R$ 1 investido, a empresa teve um retorno de R$ 1,50[1][5].</p>
+            <h2 id="caccustodeaquisiodeclientes"><strong>CAC (Custo de Aquisição de Clientes)</strong></h2>
+            <p>O <strong>CAC</strong> refere-se ao "Custo de Aquisição de Clientes". Essa métrica indica quanto uma empresa gasta, em média, para adquirir um novo cliente. O cálculo do CAC é fundamental para entender a eficiência das estratégias de marketing e vendas. A fórmula básica é:</p>
+            <blockquote>
+            <p>Fórmula: CAC = Total Gasto / Novos Clientes</p>
+            </blockquote>
+            <p class="alert-info">Por exemplo, se uma empresa gastou R$ 20.000 em marketing e vendas e adquiriu 100 novos clientes, o CAC seria:</p>
+            <p>20000/100 = R$ 200</p>
+            <p>Isso significa que a empresa gastou R$ 200 para conquistar cada novo cliente[1][6].</p>
+            <h2 id="ltvvalordotempodevidadocliente"><strong>LTV (Valor do Tempo de Vida do Cliente)</strong></h2>
+            <p>O <strong>LTV</strong>, ou "Lifetime Value", representa o valor total que um cliente gera para a empresa durante todo o seu relacionamento com ela. Essa métrica é crucial para entender quanto se pode gastar na aquisição de novos clientes sem comprometer a rentabilidade. O cálculo do LTV pode variar, mas uma fórmula comum é:</p>
+            <blockquote>
+            <p>Fórmula: LTV = Valor Médio * Número de Compras * Duração do Relacionamento</p>
+            </blockquote>
+            <p class="alert-info">Por exemplo, se um cliente gasta em média R$ 100 por compra, realiza 5 compras por ano e mantém um relacionamento com a empresa por 3 anos, o LTV seria:</p>
+            <p>100<em>5</em>3 = R$ 1.500</p>
+            <p>Isso indica que cada cliente traz, em média, R$ 1.500 durante sua vida útil[1][6].</p>
+            <h2 id="interrelaoentreroicaceltv"><strong>Inter-relação entre ROI, CAC e LTV</strong></h2>
+            <p>Essas três métricas estão interligadas:</p>
+            <ul>
+            <li>Um ROI positivo indica que os investimentos estão gerando lucro.</li>
+            <li>O CAC deve ser inferior ao LTV para garantir que a empresa seja lucrativa; ou seja, o custo de adquirir um cliente deve ser menor do que o valor que ele traz durante seu relacionamento.</li>
+            <li>Juntas, essas métricas ajudam as empresas a otimizar suas estratégias de marketing e a maximizar sua rentabilidade.</li>
+            </ul>
+            <p>Compreender esses conceitos é essencial para qualquer negócio que deseja crescer e ser sustentável no mercado competitivo atual.</p>
+        </details>
     </div>
 
     <script>
@@ -91,7 +188,6 @@
             const lucroInvestimento = parseFloat(document.getElementById('lucro-investimento').value);
             const custoInvestimento = parseFloat(document.getElementById('custo-investimento').value);
             const roi = ((lucroInvestimento - custoInvestimento) / custoInvestimento) * 100;
-            //document.getElementById('resultado-roi').innerText = `ROI: ${roi.toFixed(2)}%`;
             document.getElementById('resultado-roi').innerText = `ROI: ${roi.toFixed(2)}%`;
         }
 
